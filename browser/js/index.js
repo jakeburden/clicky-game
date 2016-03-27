@@ -21,7 +21,6 @@ document.getElementById('app')
 ws.on('data', data => {
   const players = JSON.parse(data.toString())
   state.players = players
-  console.log(state)
   loop.update(state)
 })
 
@@ -50,14 +49,23 @@ function leaderboard (state) {
 
 function buttonEl (state) {
   return hx`
-    <button onclick=${() => {
+    <button onclick=${e => {
       state.clicks++
       update(state)
     }} style=${
       Object.assign({}
         , styles.button
         , {display: state.name.length ? 'block' : 'none'})
-    }>clicky here for points!</button>`
+    } onmouseover=${e => {
+      const btn = e.target
+      btn.style.background = '#444'
+      btn.style.color = '#fff'
+    }}
+     onmouseout=${e => {
+       const btn = e.target
+       btn.style.background = '#fff'
+       btn.style.color = '#444'
+     }}>clicky here for points!</button>`
 }
 
 function inputEl (state) {
